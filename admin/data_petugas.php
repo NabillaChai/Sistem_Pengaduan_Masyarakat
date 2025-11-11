@@ -251,7 +251,7 @@
       <a href="index.php">Dashboard</a>
       <a href="kelola_laporan.php">Kelola Laporan</a>
       <a href="data_petugas.php" class="active">Data Petugas</a>
-      <a href="../login_petugas.php" class="logout-btn">Logout</a>
+      <a href="../login_petugas_admin.php" class="logout-btn">Logout</a>
     </nav>
   </header>
 

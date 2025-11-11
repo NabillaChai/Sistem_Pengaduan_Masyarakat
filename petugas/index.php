@@ -218,7 +218,7 @@
     </div>
     <nav>
       <a href="index.php" class="active">Daftar Pengaduan</a>
-      <a href="../login_petugas.php" class="logout-btn">Logout</a>
+      <a href="../login_petugas_admin.php" class="logout-btn">Logout</a>
     </nav>
   </header>
 

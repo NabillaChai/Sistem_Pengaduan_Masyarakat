@@ -114,7 +114,7 @@
       Kota Bandar Lampung
     </div>
   </header>
-    <h1>Tes</h1>
+  <h1>tes</h1>
   <div class="content">
     <h1>Selamat Datang di Website Pengaduan Masyarakat<br>Kota Bandar Lampung</h1>
     <p>Layanan Aspirasi dan Pengaduan Online Rakyat</p>
