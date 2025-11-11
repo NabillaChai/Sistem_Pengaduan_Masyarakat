@@ -24,7 +24,6 @@
       overflow: hidden;
     }
 
-    /* Pola lembut di background */
     body::before {
       content: "";
       position: absolute;
