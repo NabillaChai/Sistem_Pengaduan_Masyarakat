@@ -48,6 +48,7 @@
     </form>
     <p>Belum punya akun? <a href="registrasi.php">Daftar di sini</a></p>
   </div>
+  <button class="btn2" onclick="window.location.href='login_petugas_admin.php'">Login Sebagai Petugas</button>
 
   <footer>© 2025 Pemerintah Kota Bandar Lampung</footer>
 </body>

@@ -1,3 +1,11 @@
+<?php
+include '../koneksi.php';
+session_start();
+if(!isset($_SESSION['username'])){
+    header("location:../login_petugas_admin.php");
+}
+$id = $_GET["id"];
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -214,17 +222,21 @@
     </div>
     <nav>
       <a href="index.php" class="active">Daftar Pengaduan</a>
-      <a href="../login_petugas.php" class="logout-btn">Logout</a>
+      <a href="../logout.php" class="logout-btn">Logout</a>
     </nav>
   </header>
 
   <div class="page-title">Beri Tanggapan</div>
 
   <div class="form-container">
-    <form>
+    <form action="" method="POST">
       <table>
+        <?php
+        $qry = mysqli_query($conn, "SELECT * FROM pengaduan WHERE id_pengaduan = '$id'");
+        $data = mysqli_fetch_array($qry);
+        ?>
         <tr>
-          <td colspan="2"><strong>Laporan:</strong> Jalan di Kelurahan Sukarame rusak parah dan sulit dilalui kendaraan roda dua.</td>
+          <td colspan="2"><strong>Laporan:</strong> <?= $data['isi_laporan'] ?></td>
         </tr>
         <tr>
           <td style="width: 30%;"><strong>Status</strong></td>
@@ -236,17 +248,30 @@
         </tr>
         <tr>
           <td><strong>Tanggal Tanggapan</strong></td>
-          <td><input type="text" value="05-11-2025 (14:32:00)" readonly></td>
+          <td><input type="text" name="tgl" value="<?php date_default_timezone_set('Asia/Jakarta'); echo date('Y-m-d') ?>" readonly></td>
         </tr>
         <tr>
           <td><strong>Tanggapan</strong></td>
-          <td><textarea placeholder="Tuliskan tanggapan di sini..."></textarea></td>
+          <td><textarea name="tanggapan" placeholder="Tuliskan tanggapan di sini..."></textarea></td>
         </tr>
       </table>
 
-      <button type="submit" class="btn">Kirim Tanggapan</button>
+      <button type="submit" name="simpan" class="btn">Kirim Tanggapan</button>
     </form>
   </div>
+ <?php
+    if(isset($_POST['simpan'])){
+        $id_pengaduan = $id;
+        $tgl = $_POST['tgl'];
+        $id_petugas = $_SESSION['id_petugas'];
+        $tanggapan = $_POST['tanggapan'];
+        $status = $_POST['status'];
+        mysqli_query($conn,"INSERT INTO `tanggapan` ( `id_pengaduan`, `tgl_tanggapan`, `tanggapan`, `id_petugas`) VALUES ( '$id_pengaduan', '$tgl', '$tanggapan', '$id_petugas')");
+        mysqli_query($conn,"UPDATE `pengaduan` SET `status` = '$status' WHERE `pengaduan`.`id_pengaduan` = '$id';");
+         echo"<script>alert('Data Berhasil Ditambahkan'); window.location.assign('index.php');</script>";
+     
 
+    }
+    ?>
 </body>
 </html>

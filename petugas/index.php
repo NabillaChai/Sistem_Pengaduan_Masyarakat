@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -218,7 +223,7 @@
     </div>
     <nav>
       <a href="index.php" class="active">Daftar Pengaduan</a>
-      <a href="../login_petugas_admin.php" class="logout-btn">Logout</a>
+      <a href="../logout.php" class="logout-btn">Logout</a>
     </nav>
   </header>
 
@@ -239,26 +244,25 @@
         </tr>
       </thead>
       <tbody>
+         <?php
+        include '../koneksi.php';
+        session_start();
+        $qry = mysqli_query($conn, "SELECT * FROM pengaduan");
+        $no = 1;
+        while($data = mysqli_fetch_array($qry)){
+        ?>
         <tr>
-          <td>1</td>
-          <td>05-11-2025</td>
-          <td>1234567890</td>
-          <td>Jalan di Kelurahan Sukarame rusak parah dan sulit dilalui kendaraan roda dua.</td>
-          <td>081234567890</td>
-          <td><img src="../img/jalanrusak.jpg" alt="Foto Laporan" class="foto-laporan"></td>
+          <td><?= $no++ ?></td>
+          <td><?= $data['tgl_pengaduan'] ?></td>
+          <td><?= $data['nik'] ?></td>
+          <td><?= $data['isi_laporan'] ?></td>
+          <td><?= $data['tlp'] ?></td>
+          <td><img src="../img/<?= $data['foto'] ?>" alt="Foto Laporan" class="foto-laporan"></td>
           <td><span class="status proses">Proses</span></td>
-          <td><a href="tambah_tanggapan.php?id=1">Beri Tanggapan</a></td>
+          <td><a href="tambah_tanggapan.php?id=<?= $data['id_pengaduan'] ?>">Beri Tanggapan</a></td>
         </tr>
-        <tr>
-          <td>2</td>
-          <td>04-11-2025</td>
-          <td>0987654321</td>
-          <td>Penerangan jalan umum di Jalan Gajah Mada mati sejak seminggu lalu.</td>
-          <td>082233445566</td>
-          <td><img src="../img/lampumati.jpg" alt="Foto Laporan" class="foto-laporan"></td>
-          <td><span class="status selesai">Selesai</span></td>
-          <td><a href="tambah_tanggapan.php?id=2">Beri Tanggapan</a></td>
-        </tr>
+        <?php } ?>
+
       </tbody>
     </table>
   </div>

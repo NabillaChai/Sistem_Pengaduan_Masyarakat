@@ -1,3 +1,6 @@
+<?php
+ session_start();
+ ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -232,78 +235,44 @@
     </div>
     <nav>
       <a href="index.php" class="active">Laporan Saya</a>
-      <a href="../login_masyarakat.php" class="logout-btn">Logout</a>
+      <a href="../logout.php" class="logout-btn">Logout</a>
     </nav>
   </header>
 
   <div class="page-title">Tanggapan Petugas</div>
-
+     <?php
+        include '../koneksi.php';
+       
+        $qry = mysqli_query($conn, "SELECT * FROM tanggapan, petugas WHERE tanggapan.id_petugas = petugas.id_petugas AND id_pengaduan = '$_GET[id]' ");
+        $data = mysqli_fetch_array($qry);
+        $qry2 = mysqli_query($conn, "SELECT * FROM pengaduan WHERE id_pengaduan = '$_GET[id]' ");
+        $dataLaporan = mysqli_fetch_array($qry2);
+        ?>
   <div class="response-container" id="responseContainer">
     <div class="response-header">
       <h3>Laporan Pengaduan</h3>
-      <p>ID Laporan: #1</p>
+      <p>ID Laporan: <?= $_GET['id'] ?></p>
     </div>
 
     <div class="response-details">
-      <p><strong>Laporan:</strong> Jalan di Kelurahan Sukarame rusak parah dan sulit dilalui kendaraan roda dua.</p>
-      <p><strong>Status:</strong> Selesai</p>
-      <p><strong>Tanggal Tanggapan:</strong> 06-11-2025</p>
-      <p><strong>Petugas:</strong> Siti Rahma</p>
+      <?php
+        include '../koneksi.php';
+       
+       
+      ?>
+      <p><strong>Laporan:</strong> <?= $dataLaporan['isi_laporan'] ?> </p>
+      <p><strong>Status:</strong> <?= $dataLaporan['status'] ?></p>
+      <p><strong>Tanggal Tanggapan:</strong> <?= $data['tgl_tanggapan'] ?></p>
+      <p><strong>Petugas:</strong> <?= $data['nama_petugas'] ?></p>
     </div>
 
     <div class="response-body">
       <strong>Isi Tanggapan:</strong><br>
-      Pekerjaan sudah selesai dilakukan. Jalan kini dapat dilalui dengan aman dan nyaman oleh warga sekitar.
+      <?= $data['tanggapan'] ?>
     </div>
   </div>
-
   <a href="index.php" class="btn">Kembali ke Dashboard</a>
 
-  <script>
-    // Contoh data tanggapan (bisa diganti dengan database)
-    const params = new URLSearchParams(window.location.search);
-    const laporanId = params.get("id"); 
-
-    const tanggapanData = {
-      1: {
-        laporan: "Jalan di Kelurahan Sukarame rusak parah dan sulit dilalui kendaraan roda dua.",
-        status: "Selesai",
-        tanggal: "06-11-2025",
-        isi: "Pekerjaan sudah selesai dilakukan. Jalan kini dapat dilalui dengan aman dan nyaman oleh warga sekitar.",
-        petugas: "Siti Rahma"
-      },
-      2: {
-        laporan: "Lampu penerangan jalan di Gang Mawar mati total sejak minggu lalu.",
-        status: "Proses",
-        tanggal: "08-11-2025",
-        isi: "Petugas sedang melakukan pengecekan dan penggantian lampu.",
-        petugas: "Andi Pratama"
-      }
-    };
-
-    const container = document.getElementById("responseContainer");
-    if (laporanId && tanggapanData[laporanId]) {
-      const data = tanggapanData[laporanId];
-      container.innerHTML = `
-        <div class="response-header">
-          <h3>Laporan Pengaduan</h3>
-          <p>ID Laporan: #${laporanId}</p>
-        </div>
-
-        <div class="response-details">
-          <p><strong>Laporan:</strong> ${data.laporan}</p>
-          <p><strong>Status:</strong> ${data.status}</p>
-          <p><strong>Tanggal Tanggapan:</strong> ${data.tanggal}</p>
-          <p><strong>Petugas:</strong> ${data.petugas}</p>
-        </div>
-
-        <div class="response-body">
-          <strong>Isi Tanggapan:</strong><br>
-          ${data.isi}
-        </div>
-      `;
-    }
-  </script>
-
+  
 </body>
 </html>

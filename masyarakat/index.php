@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -282,26 +287,23 @@
         </tr>
       </thead>
       <tbody>
+        <?php
+        include '../koneksi.php';
+        $qry = mysqli_query($conn, "SELECT * FROM pengaduan WHERE nik = '$_SESSION[nik]' ");
+        $no = 1;
+        while($data = mysqli_fetch_array($qry)){
+        ?>
         <tr>
-          <td>1</td>
-          <td>05-11-2025</td>
-          <td>1234567890</td>
-          <td>Jalan rusak di depan rumah</td>
-          <td>08123456789</td>
-          <td><img src="../img/sample.jpg" alt="Foto Laporan" class="foto-laporan"></td>
-          <td><span class="status proses">Proses</span></td>
-          <td><a href="tanggapan.php?id=1">Lihat Tanggapan</a></td>
+          <td><?= $no++ ?></td>
+          <td><?= $data['tgl_pengaduan']?></td>
+            <td><?= $data['nik']?></td>
+            <td><?= $data['isi_laporan']?></td>
+            <td><?= $data['tlp']?></td>
+          <td><img src="<?= $data['foto']?>" alt="Foto Laporan" class="foto-laporan"></td>
+          <td><span class="status proses"><?= $data['status']?></span></td>
+          <td><a href="tanggapan.php?id=<?= $data['id_pengaduan']?>">Lihat Tanggapan</a></td>
         </tr>
-        <tr>
-          <td>2</td>
-          <td>04-11-2025</td>
-          <td>0987654321</td>
-          <td>Drainase tersumbat</td>
-          <td>08234567890</td>
-          <td><img src="../img/sample.jpg" alt="Foto Laporan" class="foto-laporan"></td>
-          <td><span class="status selesai">Selesai</span></td>
-          <td><a href="tanggapan.php?id=2">Lihat Tanggapan</a></td>
-        </tr>
+        <?php } ?>
       </tbody>
     </table>
   </div>

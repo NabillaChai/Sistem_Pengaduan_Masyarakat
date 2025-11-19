@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -216,22 +221,22 @@
     </div>
     <nav>
       <a href="index.php" class="active">Laporan Saya</a>
-      <a href="../login_masyarakat.php" class="logout-btn">Logout</a>
+      <a href="../logout.php" class="logout-btn">Logout</a>
     </nav>
   </header>
 
   <div class="page-title">Tambah Pengaduan</div>
 
   <div class="form-container">
-    <form action="#" method="post" enctype="multipart/form-data">
+    <form action="" method="POST" enctype="multipart/form-data">
       <label for="tgl">Tanggal Pengaduan</label>
-      <input type="text" id="tgl" name="tgl" value="2025-11-05 (22:00:00)" readonly>
+      <input type="text" id="tgl" name="tgl_pengaduan" value="<?php date_default_timezone_set('Asia/Jakarta'); echo date('Y-m-d') ?>" readonly>
 
       <label for="nik">NIK</label>
-      <input type="text" id="nik" name="nik" value="1234567890" readonly>
+      <input type="text" id="nik" name="nik" value="<?= $_SESSION['nik'] ?>" readonly>
 
       <label for="tlp">No Telepon</label>
-      <input type="text" id="tlp" name="tlp" maxlength="13" minlength="12" placeholder="08xxxxxxxxxx" required>
+      <input type="text" id="tlp" name="tlp" maxlength="13" minlength="12" placeholder="08xxxxxxxxxx" >
 
       <label for="isi">Isi Laporan</label>
       <textarea id="isi" name="isi" placeholder="Tuliskan laporan di sini..." required></textarea>
@@ -239,9 +244,28 @@
       <label for="foto">Upload Foto</label>
       <input type="file" id="foto" name="foto" required>
 
-      <button type="submit" class="btn">Kirim Pengaduan</button>
+      <button type="submit" name="simpan" class="btn">Kirim Pengaduan</button>
     </form>
   </div>
+ <?php
+    include '../koneksi.php';
+    if(isset($_POST['simpan'])){
+        $path = "../img/" . hash("sha256", rand(0, 1000) . $_FILES["foto"]["name"]) . pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION);
+        move_uploaded_file($_FILES["foto"]["tmp_name"], $path);
 
+        mysqli_query($conn, "INSERT INTO pengaduan SET
+        tgl_pengaduan = '$_POST[tgl_pengaduan]',
+        nik = '$_POST[nik]',
+        isi_laporan = '$_POST[isi]',
+        foto = '$path',
+        tlp = '$_POST[tlp]'
+        ");
+        
+         echo"<script>alert('Data Berhasil Ditambahkan'); window.location.assign('index.php');
+         </script>";
+ 
+
+    }
+    ?>
 </body>
 </html>

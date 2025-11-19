@@ -108,6 +108,27 @@
       box-shadow: 0 6px 16px rgba(0,0,0,0.25);
     }
 
+    .btn2 {
+      background: #BF3131;
+      color: #fff;
+      border: none;
+      padding: 10px 0;
+      width: 20%;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-top: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+
+    .btn2:hover {
+      background: #7D0A0A;
+      transform: scale(1.03);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    }
+
     p {
       margin-top: 15px;
       font-size: 0.9rem;
